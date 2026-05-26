@@ -925,7 +925,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   function render() {
     const step = steps[idx];
     stepMeta.textContent = `Step ${idx + 1} of ${TOTAL_STEPS}`;
-    progressBar.style.width = `${(idx / TOTAL_STEPS) * 100}%`;
+    progressBar.style.width = `${Math.max(12, (idx / TOTAL_STEPS) * 100)}%`;
 
     stepContent.innerHTML = `
       <h3>${step.q}</h3>
