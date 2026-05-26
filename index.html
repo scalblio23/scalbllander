@@ -38,6 +38,21 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+<!-- A/B hero variant decision — runs before paint to avoid flicker. 50/50, sticky per visitor. -->
+<script>
+(function(){
+  try {
+    var v = localStorage.getItem('heroVariant');
+    if (v !== 'A' && v !== 'B') { v = Math.random() < 0.5 ? 'A' : 'B'; localStorage.setItem('heroVariant', v); }
+    document.documentElement.setAttribute('data-hero', v);
+  } catch (e) { document.documentElement.setAttribute('data-hero', 'A'); }
+})();
+</script>
+
+<!-- Vercel Web Analytics (enable Web Analytics on the Vercel project for data to flow) -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 <!-- Wistia player -->
 <script src="https://fast.wistia.com/player.js" async></script>
 <script src="https://fast.wistia.com/embed/x4sowpmumw.js" async type="module"></script>
@@ -175,6 +190,58 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     color: var(--muted);
     letter-spacing: -0.3px;
   }
+
+  /* ===== A/B test: Variant B hero (thank-you styled orange block) ===== */
+  .hero-b { display: none; }
+  html[data-hero="B"] .hero-a { display: none; }
+  html[data-hero="B"] .hero-b { display: block; }
+
+  .hero-b {
+    position: relative;
+    background: radial-gradient(ellipse 90% 70% at 50% 0%, #ffa64d 0%, #ff7a26 35%, #ff5a05 65%, #c93d00 100%);
+    color: #fff;
+    padding: 56px 20px 64px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .hero-b .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.22) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(255,255,255,0.22) 1.5px, transparent 1.5px);
+    background-size: 70px 70px;
+    background-position: center top;
+    mask-image: radial-gradient(ellipse 95% 80% at 50% 30%, #000 35%, transparent 95%);
+    -webkit-mask-image: radial-gradient(ellipse 95% 80% at 50% 30%, #000 35%, transparent 95%);
+  }
+  .hero-b .hero-content { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; }
+  .hero-b .hero-pill {
+    display: inline-block; padding: 14px 28px; background: #fff; color: var(--orange);
+    border-radius: 999px; font-size: clamp(15px, 2vw, 20px); font-weight: 800;
+    letter-spacing: -0.4px; margin-bottom: 26px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .hero-b h1 {
+    font-size: clamp(27px, 4.6vw, 50px); font-weight: 800; line-height: 1.08;
+    margin: 0 auto 22px; max-width: 1040px; letter-spacing: -2px; color: #fff;
+    padding: 0 8px; text-wrap: balance;
+  }
+  .hero-b h1 br.bm { display: none; }
+  .hero-b h1 .highlight {
+    background: #fff3ec; color: var(--orange); padding: 0 10px; border-radius: 6px;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone; white-space: nowrap;
+  }
+  .hero-b .hero-sub {
+    font-size: clamp(15px, 1.7vw, 18px); color: rgba(255,255,255,0.95);
+    margin: 0 auto 26px; max-width: 680px; line-height: 1.45; letter-spacing: -0.5px;
+  }
+  .hero-b .hero-sub strong { font-weight: 800; color: #fff; }
+  .hero-b .hero-vsl { max-width: 880px; margin: 0 auto; }
+  .hero-b .hero-vsl wistia-player { display: block; border-radius: 12px; overflow: hidden; }
+  .hero-b .cta-wrap { margin-top: 32px; }
+  .hero-b .cta { background: #fff; color: var(--orange); box-shadow: 0 18px 36px rgba(0,0,0,0.22); }
+  .hero-b .cta:hover { background: #fff3ec; }
 
   /* ===== Social proof (Trustpilot style) ===== */
   .proof {
@@ -458,6 +525,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     .proof-grid { grid-template-columns: 1fr; }
     .modal { padding: 26px 20px 22px; }
     h1 { letter-spacing: -1.5px; }
+    .hero-b h1 br.bm { display: inline; }
   }
 </style>
 </head>
@@ -467,7 +535,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   <a href="/" class="brand">Scalbl<span class="dot">.</span>io</a>
 </header>
 
-<main class="wrap">
+<main class="wrap hero-a">
   <div class="eyebrow ui-tight">For business owners over $20k/month</div>
 
   <div class="pre-headline">Losing sales from not calling your leads?</div>
@@ -487,6 +555,28 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     <div class="micro ui-tight">Takes ~60 seconds to qualify. No spam, ever.</div>
   </div>
 </main>
+
+<!-- ===== A/B Variant B hero (shown when data-hero="B") ===== -->
+<section class="hero-b">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-pill">For Business Owners Over $20k/Month</div>
+    <h1>
+      We'll Get You<br class="bm">
+      <span class="highlight">20–40 Booked Calls A Month</span><br class="bm">
+      With An Appointment Setter<br class="bm">
+      + Paid Ads Or You Don't Pay.
+    </h1>
+    <p class="hero-sub">Losing sales from not calling your leads? <strong>Watch the quick video below</strong> to see exactly how it works.</p>
+    <div class="hero-vsl">
+      <wistia-player media-id="x4sowpmumw" aspect="1.7777777777777777"></wistia-player>
+    </div>
+    <div class="cta-wrap">
+      <button class="cta js-open-survey">Book Demo Call →</button>
+      <div class="micro ui-tight" style="color: rgba(255,255,255,0.85);">Takes ~60 seconds to qualify. No spam, ever.</div>
+    </div>
+  </div>
+</section>
 
 <section class="proof">
   <div class="proof-head">
@@ -716,6 +806,14 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
+  // ===== A/B test: finalize active hero + report exposure to Vercel Analytics =====
+  const HERO_VARIANT = document.documentElement.getAttribute('data-hero') || 'A';
+  (function(){
+    const inactive = document.querySelector(HERO_VARIANT === 'B' ? '.hero-a' : '.hero-b');
+    if (inactive) inactive.remove();   // drop the unused hero so its VSL never loads
+    if (window.va) window.va('event', { name: 'hero_view', data: { variant: HERO_VARIANT } });
+  })();
+
   // Fade-in observer for Trustpilot cards — slow stagger as they enter the viewport
   const cards = document.querySelectorAll('#proofGrid .tp-card');
   const observer = new IntersectionObserver((entries) => {
@@ -791,6 +889,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     contact = { name: '', email: '', phone: '' };
     modalBox.classList.remove('wide');
     modal.classList.add('open');
+    if (window.va) window.va('event', { name: 'demo_cta_click', data: { variant: HERO_VARIANT } });
     render();
   }
   function closeModal() { modal.classList.remove('open'); }
@@ -881,6 +980,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
           content_category: 'sales_call_booking'
         });
       }
+      if (window.va) window.va('event', { name: 'demo_lead', data: { variant: HERO_VARIANT } });
 
       showCalendly();
     });
