@@ -141,6 +141,39 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     letter-spacing: -0.8px;
   }
 
+  /* ===== Trustpilot rating badge ===== */
+  .trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 14px;
+    font-size: 13px;
+    letter-spacing: -0.3px;
+    color: var(--muted);
+  }
+  .trust-stars { display: inline-flex; gap: 2px; }
+  .trust-stars .ts {
+    width: 16px; height: 16px;
+    background: #00b67a;
+    display: inline-block;
+    position: relative;
+  }
+  .trust-stars .ts::after {
+    content: "\2605";
+    position: absolute; inset: 0;
+    color: #fff; font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .trust-stars .ts.p43 { background: linear-gradient(90deg, #00b67a 43%, #dcdce6 43%); }
+  .trust-meta strong { color: var(--ink); font-weight: 800; }
+  .trust-meta .trust-name { font-weight: 700; }
+  .trust-meta .trust-star { color: #00b67a; }
+  /* Variant B (orange hero) contrast */
+  .hero-b .trust-badge { color: rgba(255,255,255,0.92); }
+  .hero-b .trust-meta strong { color: #fff; }
+  .hero-b .trust-stars .ts.p43 { background: linear-gradient(90deg, #00b67a 43%, rgba(255,255,255,0.45) 43%); }
+  .hero-b .trust-meta .trust-star { color: #fff; }
+
   h1 {
     font-size: clamp(28px, 4.4vw, 50px);
     font-weight: 800;
@@ -564,6 +597,13 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
   <div class="pre-headline">Losing sales from not calling your leads?</div>
 
+  <div class="trust-badge" aria-label="Rated 4.3 out of 5 on Trustpilot">
+    <span class="trust-stars">
+      <span class="ts"></span><span class="ts"></span><span class="ts"></span><span class="ts"></span><span class="ts p43"></span>
+    </span>
+    <span class="trust-meta"><strong>4.3</strong> · <span class="trust-name"><span class="trust-star">&#9733;</span> Trustpilot</span></span>
+  </div>
+
   <h1>
     We'll Get You
     <span class="accent">20–40 Booked Calls A Month</span>
@@ -585,6 +625,12 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-pill">For Business Owners Over $20k/Month</div>
+    <div class="trust-badge" aria-label="Rated 4.3 out of 5 on Trustpilot">
+      <span class="trust-stars">
+        <span class="ts"></span><span class="ts"></span><span class="ts"></span><span class="ts"></span><span class="ts p43"></span>
+      </span>
+      <span class="trust-meta"><strong>4.3</strong> · <span class="trust-name"><span class="trust-star">&#9733;</span> Trustpilot</span></span>
+    </div>
     <h1>
       We'll Get You<br class="bm">
       <span class="highlight">20–40 Booked Calls A Month</span><br class="bm">
