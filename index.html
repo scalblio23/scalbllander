@@ -931,14 +931,13 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
   const CALENDLY_URL = "https://calendly.com/fortent/new-meeting-1";
 
-  // ===== Lead collection backend =====
-  // Submissions are POSTed here as JSON. Easiest option: create a free form at
-  // https://formspree.io, then paste its endpoint below (e.g. https://formspree.io/f/abcdwxyz).
-  // Any URL that accepts a JSON POST works too (Zapier/Make webhook, your own API, etc.).
-  const LEAD_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+  // ===== Lead collection backend (Google Sheet via Apps Script) =====
+  // Deploy the script in apps-script/Code.gs as a Web App (Execute as: Me,
+  // Who has access: Anyone), then paste its /exec URL below.
+  const LEAD_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_URL";
 
   function submitLead(extra) {
-    if (!LEAD_ENDPOINT || LEAD_ENDPOINT.indexOf('YOUR_FORM_ID') !== -1) return; // not configured yet
+    if (!LEAD_ENDPOINT || LEAD_ENDPOINT.indexOf('PASTE_') === 0) return; // not configured yet
     const payload = Object.assign({
       name: contact.name || '',
       email: contact.email || '',
@@ -949,9 +948,12 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       submitted_at: new Date().toISOString()
     }, extra || {});
     try {
+      // text/plain + no-cors avoids the CORS preflight that Apps Script can't answer;
+      // the POST still reaches the script and writes the row.
       fetch(LEAD_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
         keepalive: true
       }).catch(() => {});
