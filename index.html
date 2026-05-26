@@ -883,6 +883,11 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
       ]
     },
     {
+      q: "What industry are you in?",
+      type: 'text',
+      placeholder: "e.g. Mortgage broking, plumbing, real estate"
+    },
+    {
       q: "Which do you need the most help with?",
       opts: [
         { label: "More leads", next: 'continue' },
@@ -929,6 +934,36 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     const p = idx / steps.length;
     const eased = 1 - Math.pow(1 - p, 2);
     progressBar.style.width = `${(15 + eased * 68).toFixed(1)}%`;
+
+    function advance() {
+      if (idx === steps.length - 1) return showContactForm();
+      idx++;
+      render();
+    }
+
+    // Short-answer (text) question
+    if (step.type === 'text') {
+      stepContent.innerHTML = `
+        <h3>${step.q}</h3>
+        <div class="form-fields">
+          <input id="textAnswer" type="text" placeholder="${step.placeholder || ''}" autocomplete="off" />
+          <div class="form-error" id="textError"></div>
+          <button class="form-submit" id="textNext">Continue →</button>
+        </div>
+      `;
+      const input = document.getElementById('textAnswer');
+      const err = document.getElementById('textError');
+      input.focus();
+      const submitText = () => {
+        const val = input.value.trim();
+        if (!val) { input.classList.add('error'); err.textContent = 'Please enter an answer.'; input.focus(); return; }
+        answers.push({ q: step.q, a: val });
+        advance();
+      };
+      document.getElementById('textNext').addEventListener('click', submitText);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitText(); } });
+      return;
+    }
 
     stepContent.innerHTML = `
       <h3>${step.q}</h3>
