@@ -38,12 +38,19 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
-<!-- A/B hero variant decision — runs before paint to avoid flicker. 50/50, sticky per visitor. -->
+<!-- A/B hero variant decision — runs before paint to avoid flicker. 50/50, sticky per visitor.
+     Add ?hero=A or ?hero=B to the URL to force a variant (handy for QA/screenshots). -->
 <script>
 (function(){
   try {
-    var v = localStorage.getItem('heroVariant');
-    if (v !== 'A' && v !== 'B') { v = Math.random() < 0.5 ? 'A' : 'B'; localStorage.setItem('heroVariant', v); }
+    var forced = new URLSearchParams(location.search).get('hero');
+    var v;
+    if (forced === 'A' || forced === 'B') {
+      v = forced; localStorage.setItem('heroVariant', v);
+    } else {
+      v = localStorage.getItem('heroVariant');
+      if (v !== 'A' && v !== 'B') { v = Math.random() < 0.5 ? 'A' : 'B'; localStorage.setItem('heroVariant', v); }
+    }
     document.documentElement.setAttribute('data-hero', v);
   } catch (e) { document.documentElement.setAttribute('data-hero', 'A'); }
 })();
