@@ -1105,14 +1105,21 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     stepMeta.textContent = "You're qualified ✓";
     modalBox.classList.add('wide');
 
-    // Sanitize phone for Calendly's SMS reminder input.
-    // Calendly's phone-input component is strict: it wants a clean E.164-style string
-    // like "+61422190558" — no spaces, dashes, brackets. We strip everything except
-    // digits and a leading '+'. If the user forgot the '+', we don't add one (could be wrong country).
-    const rawPhone = contact.phone || '';
-    const phoneClean = rawPhone
-      .replace(/[^\d+]/g, '')        // keep only digits and '+'
-      .replace(/(?!^)\+/g, '');      // remove any '+' that isn't at the start
+    // Normalize the phone to Australian E.164 (+61...) for Calendly's strict
+    // phone-input / SMS-reminder field. Handles common AU input formats:
+    //   0422 190 558  ->  +61422190558
+    //   422 190 558   ->  +61422190558
+    //   61422190558   ->  +61422190558
+    //   0061 422...   ->  +61422190558
+    //   +61 422...    ->  +61422190558
+    function toAUPhone(raw) {
+      let d = (raw || '').replace(/\D/g, '');   // digits only
+      if (d.startsWith('0061')) d = d.slice(2); // 0061... -> 61...
+      if (d.startsWith('61')) d = d.slice(2);   // strip country code
+      d = d.replace(/^0+/, '');                 // strip any leading national-trunk 0
+      return d ? '+61' + d : '';
+    }
+    const phoneAU = toAUPhone(contact.phone);
 
     // Build Calendly URL with prefill params:
     //   name + email            = native Calendly prefill (always available)
@@ -1122,8 +1129,8 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     const params = new URLSearchParams({
       name: contact.name,
       email: contact.email,
-      a1: contact.phone,
-      text_reminder_number: phoneClean,
+      a1: phoneAU,
+      text_reminder_number: phoneAU,
       embed_domain: window.location.hostname,
       embed_type: 'Inline',
       hide_gdpr_banner: '1'
