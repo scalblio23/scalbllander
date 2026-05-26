@@ -483,7 +483,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   <wistia-player media-id="x4sowpmumw" aspect="1.7777777777777777"></wistia-player>
 
   <div class="cta-wrap">
-    <button class="cta" id="openSurvey">Book Demo Call →</button>
+    <button class="cta js-open-survey" id="openSurvey">Book Demo Call →</button>
     <div class="micro ui-tight">Takes ~60 seconds to qualify. No spam, ever.</div>
   </div>
 </main>
@@ -694,6 +694,11 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
     </div>
 
   </div>
+
+  <div class="cta-wrap" style="text-align:center;">
+    <button class="cta js-open-survey">Book A Demo Call →</button>
+    <div class="micro ui-tight">Takes ~60 seconds to qualify. No spam, ever.</div>
+  </div>
 </section>
 
 <footer>© <span id="yr"></span> Scalbl.io · All rights reserved</footer>
@@ -790,7 +795,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   }
   function closeModal() { modal.classList.remove('open'); }
 
-  document.getElementById('openSurvey').addEventListener('click', openModal);
+  document.querySelectorAll('.js-open-survey').forEach(btn => btn.addEventListener('click', openModal));
   document.getElementById('closeModal').addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
