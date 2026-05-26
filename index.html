@@ -934,7 +934,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   // ===== Lead collection backend (Google Sheet via Apps Script) =====
   // Deploy the script in apps-script/Code.gs as a Web App (Execute as: Me,
   // Who has access: Anyone), then paste its /exec URL below.
-  const LEAD_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_URL";
+  const LEAD_ENDPOINT = "https://script.google.com/macros/s/AKfycbz0m7Pjkx1gJX3QLf06lx3-C2JFNPtVaib0LQsQq7BbjdH1BN9utEt_aZQ1AyAdBRe1GQ/exec";
 
   function submitLead(extra) {
     if (!LEAD_ENDPOINT || LEAD_ENDPOINT.indexOf('PASTE_') === 0) return; // not configured yet
