@@ -43,6 +43,18 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
+<!-- Wistia player (for the training VSL in the hero) -->
+<script src="https://fast.wistia.com/player.js" async></script>
+<script src="https://fast.wistia.com/embed/x4sowpmumw.js" async type="module"></script>
+<style>
+  wistia-player[media-id='x4sowpmumw']:not(:defined) {
+    background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/x4sowpmumw/swatch');
+    display: block;
+    filter: blur(5px);
+    padding-top: 56.25%;
+  }
+</style>
+
 <style>
   :root {
     --orange: #ff6a13;
@@ -90,152 +102,258 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
   }
   header.nav .brand .dot { color: var(--orange); }
 
-  /* ===== Confirmation hero ===== */
+  /* ===== Confirmation hero (orange block) ===== */
   .hero {
+    position: relative;
+    background: radial-gradient(ellipse 90% 70% at 50% 0%, #ffa64d 0%, #ff7a26 35%, #ff5a05 65%, #c93d00 100%);
+    color: #fff;
+    padding: 64px 20px 72px;
+    overflow: hidden;
     text-align: center;
-    padding: 64px 20px 56px;
-    max-width: 880px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.22) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(255,255,255,0.22) 1.5px, transparent 1.5px);
+    background-size: 70px 70px;
+    background-position: center top;
+    mask-image: radial-gradient(ellipse 95% 80% at 50% 30%, #000 35%, transparent 95%);
+    -webkit-mask-image: radial-gradient(ellipse 95% 80% at 50% 30%, #000 35%, transparent 95%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -30%; left: -15%;
+    width: 70%; height: 160%;
+    background: linear-gradient(115deg,
+      transparent 0%,
+      rgba(255,255,255,0.10) 40%,
+      rgba(255,255,255,0.22) 50%,
+      rgba(255,255,255,0.10) 60%,
+      transparent 100%);
+    transform: rotate(-14deg);
+    pointer-events: none;
+    filter: blur(2px);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%; right: -15%;
+    width: 80%; height: 160%;
+    background: linear-gradient(295deg,
+      transparent 0%,
+      rgba(255,255,255,0.08) 40%,
+      rgba(255,255,255,0.18) 50%,
+      rgba(255,255,255,0.08) 60%,
+      transparent 100%);
+    transform: rotate(10deg);
+    pointer-events: none;
+    filter: blur(2px);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
     margin: 0 auto;
   }
 
-  .success-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+  .hero-pill {
+    display: inline-block;
     padding: 12px 22px;
-    background: var(--success-soft);
-    color: var(--success);
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    margin-bottom: 24px;
-  }
-  .success-pill .check {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--success);
-    color: #fff;
-    font-size: 13px;
-  }
-
-  h1 {
-    font-size: clamp(34px, 5.4vw, 60px);
-    font-weight: 800;
-    line-height: 1.04;
-    margin: 0 auto 18px;
-    max-width: 820px;
-    letter-spacing: -2.5px;
-  }
-  h1 .accent { color: var(--orange); }
-
-  .urgent {
-    margin: 32px auto 0;
-    max-width: 720px;
     background: #fff3ec;
-    border: 2px solid var(--orange);
-    border-radius: 14px;
-    padding: 22px 24px;
-    font-size: clamp(18px, 2.4vw, 22px);
-    font-weight: 800;
     color: var(--orange);
-    letter-spacing: -1.2px;
-    line-height: 1.25;
+    border-radius: 999px;
+    font-size: clamp(14px, 1.6vw, 17px);
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 4.6vw, 52px);
+    font-weight: 800;
+    line-height: 1.08;
+    margin: 0 auto 24px;
+    max-width: 820px;
+    letter-spacing: -2px;
+    color: #fff;
+    padding: 0 8px;
+    text-wrap: balance;
+  }
+  .hero h1 .highlight {
+    background: #fff3ec;
+    color: var(--orange);
+    padding: 0 10px;
+    border-radius: 6px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    white-space: nowrap;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 1.9vw, 19px);
+    color: rgba(255,255,255,0.95);
+    margin: 0 auto 14px;
+    max-width: 700px;
+    line-height: 1.5;
+    letter-spacing: -0.5px;
+  }
+  .hero-sub strong { font-weight: 800; color: #fff; }
+
+  .hero-italic {
+    font-style: italic;
+    font-size: clamp(14px, 1.6vw, 16px);
+    color: rgba(255,255,255,0.85);
+    margin: 0 0 36px;
+    letter-spacing: -0.4px;
+  }
+
+  .hero-vsl {
+    max-width: 880px;
+    margin: 0 auto;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    background: #000;
+  }
+  .hero-vsl wistia-player {
+    display: block;
+    width: 100%;
   }
 
   /* ===== Steps section ===== */
   .steps-section {
-    background: var(--bg-soft);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 56px 20px;
+    background: var(--ink);
+    color: #fff;
+    padding: 72px 20px;
+    position: relative;
   }
   .steps-wrap {
-    max-width: 880px;
+    max-width: 900px;
     margin: 0 auto;
   }
   .steps-head {
     text-align: center;
-    margin-bottom: 36px;
+    margin-bottom: 48px;
+  }
+  .steps-head .kicker {
+    display: inline-block;
+    padding: 8px 18px;
+    background: rgba(255, 106, 19, 0.15);
+    color: var(--orange);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
   }
   .steps-head h2 {
-    font-size: clamp(24px, 3.4vw, 34px);
-    margin: 0 0 8px;
-    letter-spacing: -2px;
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 0 0 12px;
+    letter-spacing: -2.5px;
+    line-height: 1.04;
+    color: #fff;
   }
   .steps-head .sub {
-    color: var(--muted);
-    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    font-size: clamp(16px, 1.9vw, 18px);
     letter-spacing: -0.5px;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.4;
   }
 
   .step {
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 28px;
+    border-radius: 18px;
+    padding: 36px 36px 36px 30px;
     display: grid;
-    grid-template-columns: 56px 1fr;
-    gap: 22px;
+    grid-template-columns: 80px 1fr;
+    gap: 26px;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .step::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--orange);
   }
   .step-num {
-    width: 56px; height: 56px;
+    width: 80px; height: 80px;
     border-radius: 50%;
     background: var(--orange);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: 38px;
     font-weight: 800;
-    letter-spacing: -1.5px;
+    letter-spacing: -2px;
+    box-shadow: 0 8px 20px rgba(255,106,19,0.3);
+    flex-shrink: 0;
+  }
+  .step-body {
+    color: var(--ink);
+  }
+  .step-body .step-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
   }
   .step-body h3 {
-    font-size: clamp(20px, 2.4vw, 24px);
+    font-size: clamp(22px, 2.8vw, 28px);
     font-weight: 800;
-    margin: 6px 0 8px;
-    letter-spacing: -1.2px;
-    line-height: 1.2;
+    margin: 0 0 12px;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    color: var(--ink);
   }
   .step-body h3 strong { color: var(--orange); }
   .step-body p {
-    color: var(--muted);
-    margin: 0 0 14px;
-    font-size: 15px;
+    color: #4a5159;
+    margin: 0 0 16px;
+    font-size: 16px;
     letter-spacing: -0.4px;
-    line-height: 1.45;
+    line-height: 1.5;
   }
 
   .cal-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 4px;
   }
   .cal-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: #fff;
-    color: var(--ink);
-    border: 1.5px solid var(--line);
-    padding: 12px 18px;
-    font-size: 14px;
+    gap: 10px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 14px 22px;
+    font-size: 15px;
     font-weight: 700;
     border-radius: 10px;
     cursor: pointer;
     letter-spacing: -0.4px;
     text-decoration: none;
-    transition: border-color .12s ease, background .12s ease, color .12s ease;
+    transition: background .12s ease, transform .08s ease;
   }
   .cal-btn:hover {
-    border-color: var(--orange);
-    background: #fff8f3;
-    color: var(--orange);
+    background: var(--orange);
+    transform: translateY(-1px);
   }
   .cal-btn .ico {
     width: 18px; height: 18px;
@@ -278,30 +396,38 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
     line-height: 1.4;
   }
 
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
   .result-card {
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 14px;
     overflow: hidden;
-    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
   }
   .result-card .meta {
-    padding: 24px 28px 18px;
+    padding: 22px 24px 16px;
     text-align: center;
   }
   .result-card .who {
     color: var(--muted);
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: -0.4px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-transform: uppercase;
   }
   .result-card h3 {
-    font-size: clamp(22px, 3.4vw, 32px);
-    margin: 0 0 6px;
-    letter-spacing: -1.8px;
-    line-height: 1.1;
+    font-size: clamp(20px, 2.4vw, 26px);
+    margin: 0;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
     font-weight: 800;
   }
   .result-card h3 .accent { color: var(--orange); }
@@ -309,16 +435,28 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
   .result-media {
     width: 100%;
     background: #f4f5f7;
-    position: relative;
-    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 240px;
   }
-  .result-media img,
-  .result-media iframe {
+  .result-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 480px;
+    object-fit: contain;
+  }
+  .result-media.video {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+  .result-media.video iframe {
     width: 100%;
     height: 100%;
-    display: block;
     border: 0;
-    object-fit: cover;
+    display: block;
   }
 
   footer {
@@ -340,16 +478,25 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
   }
 
   @media (max-width: 720px) {
-    .hero { padding: 40px 18px 36px; }
-    .steps-section { padding: 40px 18px; }
+    .hero { padding: 44px 18px 52px; }
+    .hero-bg { background-size: 50px 50px; }
+    .hero h1 { letter-spacing: -1.8px; margin-bottom: 18px; }
+    .hero h1 .highlight { padding: 1px 8px; }
+    .hero-sub { margin-bottom: 10px; }
+    .hero-italic { margin-bottom: 28px; }
+    .steps-section { padding: 48px 18px; }
+    .steps-head { margin-bottom: 32px; }
     .step {
-      grid-template-columns: 44px 1fr;
-      gap: 14px;
-      padding: 20px;
+      grid-template-columns: 60px 1fr;
+      gap: 16px;
+      padding: 24px 22px 24px 20px;
     }
-    .step-num { width: 44px; height: 44px; font-size: 22px; }
+    .step-num { width: 60px; height: 60px; font-size: 28px; }
+    .step-body h3 { font-size: 20px; }
     .results { padding: 40px 18px 56px; }
-    .result-card .meta { padding: 20px 18px 14px; }
+    .results-grid { grid-template-columns: 1fr; gap: 18px; }
+    .result-card .meta { padding: 18px 16px 14px; }
+    .result-media { min-height: 200px; }
   }
 </style>
 </head>
@@ -359,28 +506,44 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
   <a href="/" class="brand">Scalbl<span class="dot">.</span>io</a>
 </header>
 
-<!-- ============ HERO / CONFIRMATION ============ -->
+<!-- ============ HERO / CONFIRMATION + VSL ============ -->
 <section class="hero">
-  <div class="success-pill ui-tight">
-    <span class="check">✓</span> Booking confirmed
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+
+    <div class="hero-pill">Your Call Is Confirmed! Save This Page</div>
+
+    <h1>
+      Here's Exactly How I Get Business Owners <span class="highlight">20–40 Booked Calls A Month</span> With An Appointment Setter + Paid Ads
+    </h1>
+
+    <p class="hero-sub">
+      I put this training together specifically for people who've booked a call with us. It covers the exact system behind how we've helped business owners go from inconsistent leads to <strong>20–40 booked sales calls every month</strong> — and how we'll do the same for you in our session. Watch it before our call so we can hit the ground running.
+    </p>
+
+    <p class="hero-italic">Check your email for your calendar invite and call details.</p>
+
+    <div class="hero-vsl">
+      <!-- Replace this Wistia media-id with your own training video when ready -->
+      <wistia-player media-id="x4sowpmumw" aspect="1.7777777777777777"></wistia-player>
+    </div>
+
   </div>
-
-  <h1>Congratulations! Your appointment has been <span class="accent">scheduled</span>.</h1>
-
-  <div class="urgent ui-tight">⬇️ Please follow the steps below or your call may be cancelled ⬇️</div>
 </section>
 
 <!-- ============ STEPS ============ -->
 <section class="steps-section">
   <div class="steps-wrap">
     <div class="steps-head">
-      <h2>Three quick steps before your call</h2>
-      <div class="sub ui-tight">This takes less than 60 seconds and protects your booking.</div>
+      <div class="kicker">After you've watched</div>
+      <h2>Three things to do before our call</h2>
+      <div class="sub">Less than 60 seconds. Skip these and your booking may be released.</div>
     </div>
 
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-body">
+        <div class="step-label">Step 1 — Confirm</div>
         <h3>Reply <strong>YES</strong> to our confirmation email or SMS</h3>
         <p>You'll receive a confirmation email and SMS shortly. Replying YES locks in your spot — if we don't hear from you, your call may be released to someone else on the waitlist.</p>
       </div>
@@ -389,6 +552,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
     <div class="step">
       <div class="step-num">2</div>
       <div class="step-body">
+        <div class="step-label">Step 2 — Calendar</div>
         <h3>Add the call to your calendar</h3>
         <p>Click below to add the meeting to your calendar so you don't miss it. Calendly will also send you an invite — but having it in your own calendar is your backup.</p>
         <div class="cal-buttons">
@@ -407,7 +571,8 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
     <div class="step">
       <div class="step-num">3</div>
       <div class="step-body">
-        <h3>Check out our results — do your due diligence</h3>
+        <div class="step-label">Step 3 — Prepare</div>
+        <h3>Watch our client wins below ↓</h3>
         <p>Below are real results from real clients running this exact system. Take 5 minutes to scroll through before our call — it'll make the conversation 10× more valuable.</p>
       </div>
     </div>
@@ -421,6 +586,8 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
     <h2>Real businesses. Real numbers.</h2>
     <div class="sub">Take 5 minutes to scroll through these. It'll make our call 10× more valuable.</div>
   </div>
+
+  <div class="results-grid">
 
   <div class="result-card">
     <div class="meta">
@@ -447,7 +614,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
       <div class="who ui-tight">Puneet · Credzone Mortgage Broking</div>
       <h3><span class="accent">4 deals in one month</span> for his brokerage</h3>
     </div>
-    <div class="result-media">
+    <div class="result-media video">
       <iframe src="https://www.youtube.com/embed/f5UezE2b1zQ" title="Puneet testimonial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
   </div>
@@ -457,7 +624,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
       <div class="who ui-tight">Jordan · My Reno Quotes</div>
       <h3>Added <span class="accent">$100k in sales</span> in 2 months</h3>
     </div>
-    <div class="result-media">
+    <div class="result-media video">
       <iframe src="https://www.youtube.com/embed/zMFzkbXxjuE" title="Jordan testimonial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
   </div>
@@ -477,7 +644,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
       <div class="who ui-tight">Brian · Redwood Finance</div>
       <h3>Brian's second wave — <span class="accent">more growth</span></h3>
     </div>
-    <div class="result-media">
+    <div class="result-media video">
       <iframe src="https://www.youtube.com/embed/d91Gwg-vyaU" title="Brian testimonial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
   </div>
@@ -522,6 +689,477 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=Schedule&noscript=1"
     </div>
   </div>
 
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Daniel · Ecom Brand</div>
+      <h3>Closed <span class="accent">9 new clients</span> in one month through IG DMs</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-daniel-ig-dms.png" alt="Daniel closed 9 clients through IG DMs" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · Service Business</div>
+      <h3><span class="accent">Doubled MRR</span> in a single weekend</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-mrr.png" alt="Andre doubled MRR in one weekend" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Flynn · Lead Gen</div>
+      <h3>Pulling leads at <span class="accent">$8 each</span> from paid ads</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-flynn-8dollar-leads.png" alt="Flynn getting $8 leads from ads" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Manjot · Cold Outreach</div>
+      <h3><span class="accent">2 sales calls booked</span> in 2 weeks — booking daily</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-manjot-calls.png" alt="Manjot booking calls daily through outreach" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Daniel · Ecom Niche</div>
+      <h3><span class="accent">5 appointments booked</span> in one day via IG DMs</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-daniel-ecom.png" alt="Daniel 5 appointments booked in one day" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · Cleaning Client</div>
+      <h3>Closed <span class="accent">8 new clients in one day</span> for his cleaning brand</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-fulfilment.png" alt="Andre closed 8 clients in one day" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Jadyn · Agency Owner</div>
+      <h3>Agency back to <span class="accent">100% operation</span> after 11 days out</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-jadyn-agency.png" alt="Jadyn agency back to full operation" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Flynn · Per-Lead Pricing</div>
+      <h3>Banked <span class="accent">$700 in 2 days</span> at $99/lead</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-flynn-700.png" alt="Flynn $700 in 2 days from leads" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Flynn · Local Client</div>
+      <h3><span class="accent">7 leads in 7 days</span> worth $12k each</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-flynn-7leads.png" alt="Flynn 7 leads in 7 days at $12k each" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Jared · 18 Years Old</div>
+      <h3>Hit <span class="accent">$11k/m</span> without taking a sales call — at 18</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-jared-11k.png" alt="Jared hit $11k/m at 18 without taking a sales call" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Muhammad Patel · Agency Owner</div>
+      <h3>Another <span class="accent">$10k/month</span> client signed</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-muhammad-10k.png" alt="Muhammad Patel hit $10k/month" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Allan · First Win</div>
+      <h3>First client closed at <span class="accent">$3,000</span> — cold calling works</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-allan-3k.png" alt="Allan's first client closed at $3,000" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Allan · Big Deal</div>
+      <h3>Just closed a <span class="accent">$36,000 contract</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-allan-36k.png" alt="Allan closed a $36,000 contract" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Flynn · New Client</div>
+      <h3>Signed another deal at <span class="accent">$1,500/m</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-flynn-1500.png" alt="Flynn signed a $1,500/m client" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Caleb · Agency Incubator</div>
+      <h3>Signed <span class="accent">2 clients in one day</span> ($950 + $750/m)</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-caleb-2clients.png" alt="Caleb signed 2 clients in one day" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Caleb · Day Two</div>
+      <h3>Then signed a <span class="accent">third client</span> the next day</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-caleb-3rdclient.png" alt="Caleb signed a 3rd client the next day" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Angus · Anywhere Selling</div>
+      <h3>Closed a <span class="accent">$2,000 deal</span> from the bathroom</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-angus-bathroom.png" alt="Angus closed a $2k deal from the bathroom" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Thomas · First Client</div>
+      <h3>First client closed with a <span class="accent">$1,000 down payment</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-thomas-first.png" alt="Thomas closed his first client with $1k down" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · Email Outreach</div>
+      <h3><span class="accent">9× ROI</span> on email outreach for cleaning client</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-9xroi.png" alt="Andre delivered 9x ROI on email for cleaning client" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Lead Gen Client</div>
+      <h3>Helped client generate <span class="accent">$38,000</span> in their first month</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-client-38k-month.png" alt="Client generated $38k in first month with 16 leads/month" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Thomas · Cold Calling</div>
+      <h3>Booked <span class="accent">7 sales calls</span> in 2 days</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-thomas-7calls.png" alt="Thomas booked 7 calls for Monday/Tuesday" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Manjot · Follow-Up Persistence</div>
+      <h3>First client signed at <span class="accent">$1k/m</span> after 30 follow-ups</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-manjot-first.png" alt="Manjot signed first client after 30 follow-up calls" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Maddi · Retention</div>
+      <h3>Retained <span class="accent">2 clients</span> + 2 new bookings + 8× ROI for client</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-maddi-2clients.png" alt="Maddi retained 2 clients and delivered 8x ROI" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · Daily Closing</div>
+      <h3>Signed <span class="accent">2 new clients</span> in a single day</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-2clients.png" alt="Andre signed 2 new clients today" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Will · SaaS Plan</div>
+      <h3>First client signed at <span class="accent">$400/m SaaS plan</span> via in-person meeting</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-will-first.png" alt="Will signed first client on $400/m SaaS plan" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Jasim · Ecom Client</div>
+      <h3>Closed a <span class="accent">$1,000 ecom client</span> on the call</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-jasim-1k.png" alt="Jasim closed a $1k ecom client" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Manjot · Test Drive Offer</div>
+      <h3>Another client signed on a <span class="accent">$500 test drive</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-manjot-500.png" alt="Manjot signed a client on a $500 test drive" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Angus · AI Calling Offer</div>
+      <h3>Closed <span class="accent">4 new clients in 7 days</span> with AI calling</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-angus-4clients-ai.png" alt="Angus closed 4 new clients in a week with AI calling offer" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Angus · Cash Collection</div>
+      <h3>Collected <span class="accent">$5,500 in a single week</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-angus-5500.png" alt="Angus collected $5.5k in a week" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · Big Week</div>
+      <h3>Collected <span class="accent">$6,000 in cash</span> this week</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-6k-collected.png" alt="Andre collected $6k cash this week" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Zeyad · Back In The Game</div>
+      <h3>First client signed with a <span class="accent">simple FB ads + missed-call offer</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-zeyad-first.png" alt="Zeyad signed first client on simple FB ads offer" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Maddi · Double Day</div>
+      <h3>Closed <span class="accent">2 new clients in one day</span> — one from a 6-month-old lead</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-maddi-2singleday.png" alt="Maddi closed 2 clients in a single day" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Akrant · Paid Ads</div>
+      <h3><span class="accent">6 appointments booked</span> from 20 ad leads</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-akrant-6appts.png" alt="Akrant booked 6 appointments from 20 ad leads" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Jasim · Ecom Momentum</div>
+      <h3>Signed <span class="accent">3 ecommerce clients</span> in 10 days</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-jasim-3clients.png" alt="Jasim signed 3 e-commerce clients in 10 days" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Jared · 17 Years Old</div>
+      <h3>Doing <span class="accent">$1k a day at 17</span> while still in college</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-jared-1kday-17.png" alt="Jared doing $1k a day at 17 while in college" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Chris · On Pace</div>
+      <h3>On track for <span class="accent">10 clients this month</span> — 2 closed today</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-chris-10month.png" alt="Chris on track for 10 clients this month" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Chris · Cold Outreach</div>
+      <h3>Phone won't stop ringing — <span class="accent">sales calls left and right</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-chris-coldoutreach.png" alt="Chris cold outreach blowing up the phone" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Chris · Yet Another</div>
+      <h3>Just closed <span class="accent">another new client</span> 🔥</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-chris-newclient.png" alt="Chris just closed another client" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Finlay · Quick Win</div>
+      <h3><span class="accent">Sales call booked</span> in seconds via cold outreach</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-finlay-callbooked.png" alt="Finlay booked a sales call for 6pm via cold outreach" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Jessie · First Win</div>
+      <h3>First client signed — <span class="accent">finally a closer</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-jessie-first.png" alt="Jessie signed his first client" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · Client Results</div>
+      <h3>Delivered <span class="accent">3 new clients in a single week</span> for his email client</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-3newclients.png" alt="Andre delivered 3 new clients in a week for his email client" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Andre · One Call Close</div>
+      <h3>New client signed in <span class="accent">a single call</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-andre-onecall.png" alt="Andre one call close" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Chris · Daily Volume</div>
+      <h3>Closed <span class="accent">2nd client of the day</span> — also a one-call close</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-chris-2clients.png" alt="Chris closed his 2nd client of the day" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Kieran · New Outreach System</div>
+      <h3><span class="accent">Booked a call immediately</span> after switching systems</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-kieran-aos.png" alt="Kieran booked a call right after starting the new outreach system" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Madison · Paid In Full</div>
+      <h3>New client signed and <span class="accent">paid in full upfront</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-madison-pif.png" alt="Madison signed a new client paid in full" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Akrant · Huge Commission</div>
+      <h3>1% commission on a <span class="accent">$2.3M new build deal</span></h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-akrant-23m.png" alt="Akrant 1% commission on $2.3M new build deal" />
+    </div>
+  </div>
+
+  <div class="result-card">
+    <div class="meta">
+      <div class="who ui-tight">Damzo · Lean Ad Spend</div>
+      <h3><span class="accent">4 bookings</span> from just $19 in ad spend</h3>
+    </div>
+    <div class="result-media">
+      <img loading="lazy" src="images/win-damzo-4bookings.png" alt="Damzo got 4 bookings from $19 ad spend" />
+    </div>
+  </div>
+
+  </div>
 </section>
 
 <footer>
