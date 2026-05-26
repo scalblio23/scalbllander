@@ -931,6 +931,33 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
   const CALENDLY_URL = "https://calendly.com/fortent/new-meeting-1";
 
+  // ===== Lead collection backend =====
+  // Submissions are POSTed here as JSON. Easiest option: create a free form at
+  // https://formspree.io, then paste its endpoint below (e.g. https://formspree.io/f/abcdwxyz).
+  // Any URL that accepts a JSON POST works too (Zapier/Make webhook, your own API, etc.).
+  const LEAD_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+  function submitLead(extra) {
+    if (!LEAD_ENDPOINT || LEAD_ENDPOINT.indexOf('YOUR_FORM_ID') !== -1) return; // not configured yet
+    const payload = Object.assign({
+      name: contact.name || '',
+      email: contact.email || '',
+      phone: contact.phone || '',
+      answers: answers.map(a => `${a.q} — ${a.a}`).join('  |  '),
+      variant: HERO_VARIANT,
+      page: location.href,
+      submitted_at: new Date().toISOString()
+    }, extra || {});
+    try {
+      fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
   const modal = document.getElementById('modal');
   const modalBox = document.getElementById('modalBox');
   const stepContent = document.getElementById('stepContent');
@@ -1075,6 +1102,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
         });
       }
       if (window.va) window.va('event', { name: 'demo_lead', data: { variant: HERO_VARIANT } });
+      submitLead({ status: 'qualified' });
 
       showCalendly();
     });
@@ -1088,6 +1116,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   }
 
   function showDQ() {
+    submitLead({ status: 'disqualified' });
     progressBar.style.width = '100%';
     stepMeta.textContent = '';
     stepContent.innerHTML = `
