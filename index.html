@@ -938,10 +938,18 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
   function submitLead(extra) {
     if (!LEAD_ENDPOINT || LEAD_ENDPOINT.indexOf('PASTE_') === 0) return; // not configured yet
+    const findAns = (kw) => {
+      const m = answers.find(a => a.q.toLowerCase().indexOf(kw) !== -1);
+      return m ? m.a : '';
+    };
     const payload = Object.assign({
       name: contact.name || '',
       email: contact.email || '',
       phone: contact.phone || '',
+      revenue_over_20k: findAns('established business'),
+      has_capacity: findAns('capacity'),
+      can_invest: findAns('invest'),
+      industry: findAns('industry'),
       answers: answers.map(a => `${a.q} — ${a.a}`).join('  |  '),
       variant: HERO_VARIANT,
       page: location.href,

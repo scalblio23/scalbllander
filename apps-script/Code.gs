@@ -14,7 +14,11 @@
  */
 
 const SHEET_NAME = 'Submissions';
-const HEADERS = ['Submitted At', 'Status', 'Variant', 'Name', 'Email', 'Phone', 'Answers', 'Page'];
+const HEADERS = [
+  'Submitted At', 'Status', 'Name', 'Email', 'Phone', 'Industry',
+  'Doing $20k+/mo', 'Has capacity', 'Can invest $1.5k+/mo',
+  'Variant', 'All answers', 'Page'
+];
 
 function doPost(e) {
   try {
@@ -23,15 +27,22 @@ function doPost(e) {
     let sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) {
       sheet = ss.insertSheet(SHEET_NAME);
+    }
+    // Ensure the header row matches the current schema.
+    if (sheet.getLastRow() === 0) {
       sheet.appendRow(HEADERS);
     }
     sheet.appendRow([
       data.submitted_at || new Date().toISOString(),
       data.status || '',
-      data.variant || '',
       data.name || '',
       data.email || '',
       data.phone || '',
+      data.industry || '',
+      data.revenue_over_20k || '',
+      data.has_capacity || '',
+      data.can_invest || '',
+      data.variant || '',
       data.answers || '',
       data.page || ''
     ]);
