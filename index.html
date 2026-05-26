@@ -925,7 +925,10 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
   function render() {
     const step = steps[idx];
     stepMeta.textContent = `Step ${idx + 1} of ${TOTAL_STEPS}`;
-    progressBar.style.width = `${Math.max(12, (idx / TOTAL_STEPS) * 100)}%`;
+    // Front-loaded (ease-out) progress: big jumps early, marginal later — feels fast.
+    const p = idx / steps.length;
+    const eased = 1 - Math.pow(1 - p, 2);
+    progressBar.style.width = `${(15 + eased * 68).toFixed(1)}%`;
 
     stepContent.innerHTML = `
       <h3>${step.q}</h3>
@@ -950,7 +953,7 @@ src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
 
   function showContactForm() {
     stepMeta.textContent = `Step ${TOTAL_STEPS} of ${TOTAL_STEPS}`;
-    progressBar.style.width = `${(steps.length / TOTAL_STEPS) * 100}%`;
+    progressBar.style.width = '92%';
     stepContent.innerHTML = `
       <h3>You qualify ✓ — last step to book your call.</h3>
       <div class="form-fields">
