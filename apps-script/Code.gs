@@ -16,7 +16,7 @@
 const SHEET_NAME = 'Submissions';
 const HEADERS = [
   'Submitted At', 'Status', 'Name', 'Email', 'Phone', 'Industry',
-  'Doing $20k+/mo', 'Has capacity', 'Can invest $1.5k+/mo',
+  'Doing $10k+/mo', 'Has capacity', 'Can invest $1.5k+/mo',
   'Variant', 'All answers', 'Page'
 ];
 
@@ -39,7 +39,7 @@ function doPost(e) {
       data.email || '',
       data.phone || '',
       data.industry || '',
-      data.revenue_over_20k || '',
+      data.revenue_over_10k || '',
       data.has_capacity || '',
       data.can_invest || '',
       data.variant || '',
